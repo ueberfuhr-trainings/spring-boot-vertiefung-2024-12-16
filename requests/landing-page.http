@@ -1,0 +1,10 @@
+GET {{baseUri}}/index.html
+Accept: */*
+
+> {%
+  client.test("Landing page exists", () => {
+    client.assert(response.status === 200);
+  });
+
+%}
+
