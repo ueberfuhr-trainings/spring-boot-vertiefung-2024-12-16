@@ -15,14 +15,14 @@ on:
       - 'README.md'
       - '.editorconfig'
       - '.gitignore'
-      - '.github'
+      - '.github/**'
   pull_request:
     branches: [ "main" ]
     paths-ignore:
       - 'README.md'
       - '.editorconfig'
       - '.gitignore'
-      - '.github'
+      - '.github/**'
 jobs:
   build:
 
