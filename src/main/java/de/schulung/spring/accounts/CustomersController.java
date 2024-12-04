@@ -2,6 +2,7 @@ package de.schulung.spring.accounts;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +17,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/customers")
+@RequiredArgsConstructor
 public class CustomersController {
 
-  private final Map<UUID, Customer> customers = new ConcurrentHashMap<>();
+  private final CustomersService customersService;
 
   @GetMapping(
     produces = MediaType.APPLICATION_JSON_VALUE
@@ -36,9 +35,8 @@ public class CustomersController {
     @RequestParam(required = false, name = "state")
     String stateFilter
   ) {
-    return customers
-      .values()
-      .stream();
+    return customersService
+      .findCustomers();
   }
 
   @GetMapping(
@@ -49,8 +47,8 @@ public class CustomersController {
     @PathVariable("id")
     UUID uuid
   ) {
-    return Optional
-      .ofNullable(customers.get(uuid))
+    return customersService
+      .findCustomer(uuid)
       .orElseThrow(NotFoundException::new);
   }
 
@@ -64,8 +62,7 @@ public class CustomersController {
     @RequestBody
     Customer customer
   ) {
-    customer.setUuid(UUID.randomUUID());
-    customers.put(customer.getUuid(), customer);
+    customersService.createCustomer(customer);
     // Location-Header
     var location = ServletUriComponentsBuilder
       .fromCurrentRequest()
@@ -84,7 +81,7 @@ public class CustomersController {
     @PathVariable("id")
     UUID uuid
   ) {
-    if (customers.remove(uuid) == null) {
+    if (!customersService.deleteCustomer(uuid)) {
       throw new NotFoundException();
     }
   }
