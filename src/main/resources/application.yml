@@ -1,2 +1,7 @@
 server:
   port: 8090
+spring:
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+      fail-on-ignored-properties: true
