@@ -9,7 +9,7 @@ tags:
   - name: payment
     description: Manage PayPal and creditcard data
 servers:
-  - url: http://localhost:8090/api/v1
+  - url: http://localhost:8090
 paths:
   /customers:
     get:
