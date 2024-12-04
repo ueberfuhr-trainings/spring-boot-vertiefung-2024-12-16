@@ -38,6 +38,16 @@ class CustomerApiTests {
       .andExpect(content().string(endsWith("]")));
   }
 
+  @Test
+  void shouldNotReturnCustomersWithInvalidState() throws Exception {
+    mockMvc
+      .perform(
+        get("/customers?state=gelbekatze")
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isBadRequest());
+  }
+
   /*
    * Testfall:
    *  - POST /customers mit {name, birthdate,state}
@@ -82,6 +92,23 @@ class CustomerApiTests {
       .andExpect(jsonPath("$.birthdate").value("1985-07-03"))
       .andExpect(jsonPath("$.state").value("active"));
 
+  }
+
+  @Test
+  void shouldNotCreateCustomerWithoutBirthdate() throws Exception {
+    mockMvc
+      .perform(
+        post("/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("""
+                        {
+                          "name": "Tom Mayer",
+                          "state": "active"
+                        }
+            """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isBadRequest());
   }
 
   @Test
