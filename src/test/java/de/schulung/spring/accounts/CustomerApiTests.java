@@ -112,6 +112,44 @@ class CustomerApiTests {
   }
 
   @Test
+  void shouldReturnBadRequestWhenCreateCustomerWithUuid() throws Exception {
+    mockMvc
+      .perform(
+        post("/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("""
+                        {
+                          "uuid": "f6debb95-2eda-495e-aa79-4c8a43a383cd",
+                          "name": "Tom Mayer",
+                          "birthdate": "1985-07-03",
+                          "state": "active"
+                        }
+            """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void shouldReturnBadRequestWhenCreateCustomerWithGelbeKatze() throws Exception {
+    mockMvc
+      .perform(
+        post("/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("""
+                        {
+                          "name": "Tom Mayer",
+                          "birthdate": "1985-07-03",
+                          "state": "active",
+                          "gelbekatze:": "miau"
+                        }
+            """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
   void shouldDeleteCustomer() throws Exception {
     var location = mockMvc
       .perform(
