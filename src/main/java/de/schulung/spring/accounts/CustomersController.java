@@ -23,62 +23,65 @@ import java.util.stream.Stream;
 @RequestMapping("/customers")
 public class CustomersController {
 
-    private final Map<UUID, Customer> customers = new ConcurrentHashMap<>();
+  private final Map<UUID, Customer> customers = new ConcurrentHashMap<>();
 
-    @GetMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    Stream<Customer> getAllCustomers() {
-        return customers
-                .values()
-                .stream();
+  @GetMapping(
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  Stream<Customer> getAllCustomers() {
+    return customers
+      .values()
+      .stream();
+  }
+
+  @GetMapping(
+    path = "/{id}",
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  Customer getCustomerById(
+    @PathVariable("id")
+    UUID uuid
+  ) {
+    return Optional
+      .ofNullable(customers.get(uuid))
+      .orElseThrow(NotFoundException::new);
+  }
+
+
+  @PostMapping(
+    consumes = MediaType.APPLICATION_JSON_VALUE,
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  ResponseEntity<Customer> createCustomer(
+    @RequestBody
+    Customer customer
+  ) {
+    var uuid = UUID.randomUUID();
+
+
+    customer.setUuid(UUID.randomUUID());
+    customers.put(customer.getUuid(), customer);
+    // Location-Header
+    var location = ServletUriComponentsBuilder
+      .fromCurrentRequest()
+      .path("/{id}")
+      .buildAndExpand(customer.getUuid())
+      .toUri();
+    // Response
+    return ResponseEntity
+      .created(location)
+      .body(customer);
+  }
+
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  void deleteCustomer(
+    @PathVariable("id")
+    UUID uuid
+  ) {
+    if (customers.remove(uuid) == null) {
+      throw new NotFoundException();
     }
-
-    @GetMapping(
-            path = "/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    Customer getCustomerById(
-            @PathVariable("id")
-            UUID uuid
-    ) {
-        return Optional
-                .ofNullable(customers.get(uuid))
-                .orElseThrow(NotFoundException::new);
-    }
-
-
-    @PostMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    ResponseEntity<Customer> createCustomer(
-            @RequestBody
-            Customer customer
-    ) {
-        customer.setUuid(UUID.randomUUID());
-        customers.put(customer.getUuid(), customer);
-        // Location-Header
-        var location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(customer.getUuid())
-                .toUri();
-        // Response
-        return ResponseEntity
-                .created(location)
-                .body(customer);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteCustomer(
-            @PathVariable("id")
-            UUID uuid
-    ) {
-        if (customers.remove(uuid) == null) {
-            throw new NotFoundException();
-        }
-    }
+  }
 
 }
