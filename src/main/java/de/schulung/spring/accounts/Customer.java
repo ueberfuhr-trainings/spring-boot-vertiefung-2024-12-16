@@ -1,6 +1,7 @@
 package de.schulung.spring.accounts;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class Customer {
   private UUID uuid;
   private String name;
   @JsonProperty("birthdate")
+  @NotNull
   private LocalDate birthDate;
   private String state;
 
