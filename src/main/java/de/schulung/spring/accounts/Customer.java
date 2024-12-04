@@ -14,6 +14,7 @@ public class Customer {
 
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private UUID uuid;
+  @NotNull
   private String name;
   @JsonProperty("birthdate")
   @NotNull
