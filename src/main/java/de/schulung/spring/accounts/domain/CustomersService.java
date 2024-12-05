@@ -36,6 +36,10 @@ public class CustomersService {
     return customers.remove(id) != null;
   }
 
+  public int count() {
+    return customers.size();
+  }
+
   // boolean exists(id) ?
 
 
