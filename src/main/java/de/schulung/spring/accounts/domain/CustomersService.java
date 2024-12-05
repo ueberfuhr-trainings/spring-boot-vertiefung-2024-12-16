@@ -1,4 +1,4 @@
-package de.schulung.spring.accounts;
+package de.schulung.spring.accounts.domain;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

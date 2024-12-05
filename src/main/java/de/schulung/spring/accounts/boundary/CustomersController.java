@@ -1,5 +1,6 @@
-package de.schulung.spring.accounts;
+package de.schulung.spring.accounts.boundary;
 
+import de.schulung.spring.accounts.domain.CustomersService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
@@ -26,29 +27,32 @@ import java.util.stream.Stream;
 public class CustomersController {
 
   private final CustomersService customersService;
+  private final CustomerDtoMapper mapper;
 
   @GetMapping(
     produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Stream<Customer> getAllCustomers(
+  Stream<CustomerDto> getAllCustomers(
     @Pattern(regexp = "active|locked|disabled")
     @RequestParam(required = false, name = "state")
     String stateFilter
   ) {
     return customersService
-      .findCustomers();
+      .findCustomers()
+      .map(mapper::map);
   }
 
   @GetMapping(
     path = "/{id}",
     produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Customer getCustomerById(
+  CustomerDto getCustomerById(
     @PathVariable("id")
     UUID uuid
   ) {
     return customersService
       .findCustomer(uuid)
+      .map(mapper::map)
       .orElseThrow(NotFoundException::new);
   }
 
@@ -57,12 +61,14 @@ public class CustomersController {
     consumes = MediaType.APPLICATION_JSON_VALUE,
     produces = MediaType.APPLICATION_JSON_VALUE
   )
-  ResponseEntity<Customer> createCustomer(
+  ResponseEntity<CustomerDto> createCustomer(
     @Valid
     @RequestBody
-    Customer customer
+    CustomerDto customerDto
   ) {
+    var customer = mapper.map(customerDto);
     customersService.createCustomer(customer);
+    var responseDto = mapper.map(customer);
     // Location-Header
     var location = ServletUriComponentsBuilder
       .fromCurrentRequest()
@@ -72,7 +78,7 @@ public class CustomersController {
     // Response
     return ResponseEntity
       .created(location)
-      .body(customer);
+      .body(responseDto);
   }
 
   @DeleteMapping("/{id}")
