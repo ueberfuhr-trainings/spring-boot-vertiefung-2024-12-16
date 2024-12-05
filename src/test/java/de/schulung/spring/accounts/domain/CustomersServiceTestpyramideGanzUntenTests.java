@@ -10,7 +10,7 @@ import java.time.Month;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CustomerServiceTestpyramideGanzUntenTests {
+class CustomersServiceTestpyramideGanzUntenTests {
 
   final CustomersService customersService = new CustomersService();
 
