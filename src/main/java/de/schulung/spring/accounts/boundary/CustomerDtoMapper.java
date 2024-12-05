@@ -2,31 +2,16 @@ package de.schulung.spring.accounts.boundary;
 
 import de.schulung.spring.accounts.domain.Customer;
 import de.schulung.spring.accounts.domain.CustomerState;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class CustomerDtoMapper {
+@Mapper(componentModel = "spring")
+public interface CustomerDtoMapper {
 
-  public Customer map(CustomerDto customerDto) {
-    return Customer
-      .builder()
-      .uuid(customerDto.getUuid())
-      .name(customerDto.getName())
-      .birthDate(customerDto.getBirthDate())
-      .state(mapState(customerDto.getState()))
-      .build();
-  }
+  Customer map(CustomerDto customerDto);
 
-  public CustomerDto map(Customer customer) {
-    var result = new CustomerDto();
-    result.setUuid(customer.getUuid());
-    result.setName(customer.getName());
-    result.setBirthDate(customer.getBirthDate());
-    result.setState(mapState(customer.getState()));
-    return result;
-  }
+  CustomerDto map(Customer customer);
 
-  public String mapState(CustomerState state) {
+  default String mapState(CustomerState state) {
     return null == state ? null : switch (state) {
       case ACTIVE -> "active";
       case LOCKED -> "locked";
@@ -34,7 +19,7 @@ public class CustomerDtoMapper {
     };
   }
 
-  public CustomerState mapState(String state) {
+  default CustomerState mapState(String state) {
     return null == state ? null : switch (state) {
       case "active" -> CustomerState.ACTIVE;
       case "locked" -> CustomerState.LOCKED;
