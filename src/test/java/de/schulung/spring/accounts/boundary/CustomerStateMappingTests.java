@@ -40,8 +40,6 @@ class CustomerStateMappingTests {
   MockMvc mockMvc;
   @MockitoBean
   CustomersService service;
-  @Autowired
-  private CustomersService customersService;
 
   private static class CustomerStateMappings implements ArgumentsProvider {
 
@@ -102,7 +100,7 @@ class CustomerStateMappingTests {
       .birthDate(LocalDate.of(1985, Month.JULY, 3))
       .state(currentState)
       .build();
-    when(customersService.findCustomer(any()))
+    when(service.findCustomer(any()))
       .thenReturn(Optional.of(customer));
 
     mockMvc.perform(
