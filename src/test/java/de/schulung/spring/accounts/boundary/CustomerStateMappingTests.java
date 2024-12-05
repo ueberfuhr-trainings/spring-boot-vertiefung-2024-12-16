@@ -106,7 +106,6 @@ class CustomerStateMappingTests {
     mockMvc.perform(
         get("/customers/{id}", uuid)
           .accept(MediaType.APPLICATION_JSON)
-          .accept(MediaType.APPLICATION_JSON)
       )
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.state").value(wantedValue));
