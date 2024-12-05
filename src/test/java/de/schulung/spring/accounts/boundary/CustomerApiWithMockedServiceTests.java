@@ -1,5 +1,8 @@
-package de.schulung.spring.accounts;
+package de.schulung.spring.accounts.boundary;
 
+import de.schulung.spring.accounts.domain.Customer;
+import de.schulung.spring.accounts.domain.CustomerState;
+import de.schulung.spring.accounts.domain.CustomersService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -152,11 +155,13 @@ class CustomerApiWithMockedServiceTests {
   @Test
   void shouldReturnCustomerForFindById() throws Exception {
     UUID uuid = UUID.randomUUID();
-    Customer customer = new Customer();
-    customer.setUuid(uuid);
-    customer.setName("Tom Mayer");
-    customer.setState("active");
-    customer.setBirthDate(LocalDate.of(1985, Month.JULY, 3));
+    var customer = Customer
+      .builder()
+      .uuid(uuid)
+      .name("Tom Mayer")
+      .state(CustomerState.ACTIVE)
+      .birthDate(LocalDate.of(1985, Month.JULY, 3))
+      .build();
     when(customersService.findCustomer(uuid))
       .thenReturn(Optional.of(customer));
 
@@ -173,6 +178,5 @@ class CustomerApiWithMockedServiceTests {
       .andExpect(jsonPath("$.state").value("active"));
 
   }
-
 
 }

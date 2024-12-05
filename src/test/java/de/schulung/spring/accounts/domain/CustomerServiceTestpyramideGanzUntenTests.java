@@ -1,4 +1,4 @@
-package de.schulung.spring.accounts;
+package de.schulung.spring.accounts.domain;
 
 import jakarta.validation.ValidationException;
 import org.assertj.core.api.Assertions;
@@ -16,10 +16,12 @@ class CustomerServiceTestpyramideGanzUntenTests {
 
   @Test
   void shouldAssignUuidOnCreate() {
-    Customer customer = new Customer();
-    customer.setName("Tom Mayer");
-    customer.setState("active");
-    customer.setBirthDate(LocalDate.of(1985, Month.JULY, 3));
+    var customer = Customer
+      .builder()
+      .name("Tom Mayer")
+      .state(CustomerState.ACTIVE)
+      .birthDate(LocalDate.of(1985, Month.JULY, 3))
+      .build();
 
     customersService.createCustomer(customer);
 
@@ -30,9 +32,11 @@ class CustomerServiceTestpyramideGanzUntenTests {
   @Disabled // does not work with Bean Validation
   @Test
   void shouldThrowValidationExceptionOnCreateInvalidCustomer() {
-    Customer customer = new Customer();
-    customer.setState("active");
-    customer.setBirthDate(LocalDate.of(1985, Month.JULY, 3));
+    var customer = Customer
+      .builder()
+      .state(CustomerState.ACTIVE)
+      .birthDate(LocalDate.of(1985, Month.JULY, 3))
+      .build();
 
     Assertions.assertThatThrownBy(() -> customersService.createCustomer(customer))
       .isInstanceOf(ValidationException.class);

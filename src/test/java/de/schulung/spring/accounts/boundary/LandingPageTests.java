@@ -1,4 +1,4 @@
-package de.schulung.spring.accounts;
+package de.schulung.spring.accounts.boundary;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
