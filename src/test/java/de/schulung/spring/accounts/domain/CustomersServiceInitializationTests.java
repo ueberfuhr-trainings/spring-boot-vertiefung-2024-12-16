@@ -6,7 +6,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(
+  properties = {
+    "customers.initialization.enabled=true"
+  }
+)
+//@ActiveProfiles("dev")
 class CustomersServiceInitializationTests {
 
   @Autowired
