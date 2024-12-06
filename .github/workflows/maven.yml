@@ -41,5 +41,5 @@ jobs:
       - name: Provide Code Coverage Results for Download
         uses: actions/upload-artifact@v4
         with:
-          path: 'target/site/jacoco/**'
+          path: 'account-api-provider/target/site/jacoco/**'
           name: 'code-coverage-results'
