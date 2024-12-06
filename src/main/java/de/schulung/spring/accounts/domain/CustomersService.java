@@ -32,8 +32,15 @@ public class CustomersService {
     customers.put(customer.getUuid(), customer);
   }
 
-  public boolean deleteCustomer(UUID id) {
+  public boolean deleteCustomer(@NotNull UUID id) {
     return customers.remove(id) != null;
+  }
+
+  public boolean updateCustomer(@NotNull Customer customer) {
+    return null != customers.computeIfPresent(
+      customer.getUuid(),
+      (uuid, oldValue) -> customer
+    );
   }
 
   public int count() {
