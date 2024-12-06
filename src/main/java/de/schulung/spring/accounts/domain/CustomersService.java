@@ -23,6 +23,11 @@ public class CustomersService {
       .stream();
   }
 
+  public Stream<Customer> findCustomers(@NotNull CustomerState state) {
+    return findCustomers()
+      .filter(customer -> customer.getState() == state);
+  }
+
   public Optional<Customer> findCustomer(@NotNull UUID id) {
     return Optional.ofNullable(customers.get(id));
   }
