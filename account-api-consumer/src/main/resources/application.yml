@@ -2,3 +2,4 @@ server:
   port: 8081
 client:
   baseurl: http://localhost:8090
+  timeout: 1000
