@@ -38,9 +38,13 @@ public class CustomersController {
     @RequestParam(required = false, name = "state")
     String stateFilter
   ) {
-    return customersService
-      .findCustomers()
-      .map(mapper::map);
+    return
+      (
+        stateFilter != null
+          ? customersService.findCustomers(mapper.mapState(stateFilter))
+          : customersService.findCustomers()
+      )
+        .map(mapper::map);
   }
 
   @GetMapping(

@@ -43,7 +43,8 @@ class CustomerApiTests {
   void shouldNotReturnCustomersWithInvalidState() throws Exception {
     mockMvc
       .perform(
-        get("/customers?state=gelbekatze")
+        get("/customers")
+          .param("state", "gelbekatze")
           .accept(MediaType.APPLICATION_JSON)
       )
       .andExpect(status().isBadRequest());
@@ -289,6 +290,66 @@ class CustomerApiTests {
       )
       .andExpect(status().isNotFound());
 
+  }
+
+  @Test
+  void shouldNotReturnCustomerOnNonMatchingStateFilter() throws Exception {
+    // create a customer with state active
+    // first, we need to create a customer
+    mockMvc
+      .perform(
+        post("/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("""
+                        {
+                          "name": "Active Tom Mayer",
+                          "birthdate": "1985-07-03",
+                          "state": "active"
+                        }
+            """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isCreated());
+
+    // request for locked customers
+    mockMvc
+      .perform(
+        get("/customers")
+          .param("state", "locked")
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$[?(@.name=='Active Tom Mayer')]").doesNotExist());
+  }
+
+  @Test
+  void shouldReturnCustomerOnMatchingStateFilter() throws Exception {
+    // create a customer with state active
+    // first, we need to create a customer
+    mockMvc
+      .perform(
+        post("/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("""
+                        {
+                          "name": "Active Tom Mayer",
+                          "birthdate": "1985-07-03",
+                          "state": "active"
+                        }
+            """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isCreated());
+
+    // request for active customers
+    mockMvc
+      .perform(
+        get("/customers")
+          .param("state", "active")
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$[?(@.name=='Active Tom Mayer')]").exists());
   }
 
 }
