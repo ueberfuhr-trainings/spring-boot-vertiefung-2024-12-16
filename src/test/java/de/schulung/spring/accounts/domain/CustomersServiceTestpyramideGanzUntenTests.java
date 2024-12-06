@@ -12,7 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CustomersServiceTestpyramideGanzUntenTests {
 
-  final CustomersService customersService = new CustomersService();
+  final CustomersService customersService = new CustomersService(
+    new CustomersSinkInMemoryImpl()
+  );
 
   @Test
   void shouldAssignUuidOnCreate() {

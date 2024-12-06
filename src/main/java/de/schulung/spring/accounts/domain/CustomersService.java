@@ -2,54 +2,57 @@ package de.schulung.spring.accounts.domain;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 @Validated
 @Service
+@RequiredArgsConstructor
 public class CustomersService {
 
-  private final Map<UUID, Customer> customers = new ConcurrentHashMap<>();
+  private final CustomersSink sink;
 
   public Stream<Customer> findCustomers() {
-    return customers
-      .values()
-      .stream();
+    return sink.findCustomers();
   }
 
   public Stream<Customer> findCustomers(@NotNull CustomerState state) {
-    return findCustomers()
-      .filter(customer -> customer.getState() == state);
+    return sink.findCustomers(state);
   }
 
   public Optional<Customer> findCustomer(@NotNull UUID id) {
-    return Optional.ofNullable(customers.get(id));
+    return sink.findCustomer(id);
   }
 
   public void createCustomer(@Valid Customer customer) {
-    customer.setUuid(UUID.randomUUID());
-    customers.put(customer.getUuid(), customer);
+    sink.createCustomer(customer);
   }
 
   public boolean deleteCustomer(@NotNull UUID id) {
-    return customers.remove(id) != null;
+    if (sink.existsCustomer(id)) {
+      sink.deleteCustomer(id);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean updateCustomer(@NotNull Customer customer) {
-    return null != customers.computeIfPresent(
-      customer.getUuid(),
-      (uuid, oldValue) -> customer
-    );
+    if (sink.existsCustomer(customer.getUuid())) {
+      sink.updateCustomer(customer);
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  public int count() {
-    return customers.size();
+  public long count() {
+    return sink.count();
   }
 
   // boolean exists(id) ?
