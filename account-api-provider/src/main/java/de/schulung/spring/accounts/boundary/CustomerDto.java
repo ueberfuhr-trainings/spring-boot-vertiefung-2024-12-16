@@ -1,8 +1,9 @@
 package de.schulung.spring.accounts.boundary;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.schulung.spring.accounts.boundary.validation.CustomerStatePattern;
+import de.schulung.spring.accounts.shared.validation.Adult;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +20,10 @@ public class CustomerDto {
   private String name;
   @JsonProperty("birthdate")
   @NotNull
+  @Adult
   private LocalDate birthDate;
-  @Pattern(regexp = "active|locked|disabled")
+  @CustomerStatePattern
   private String state;
+
 
 }

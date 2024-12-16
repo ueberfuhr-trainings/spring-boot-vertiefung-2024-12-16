@@ -1,5 +1,6 @@
 package de.schulung.spring.accounts.domain;
 
+import de.schulung.spring.accounts.shared.validation.Adult;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class Customer {
   @NotNull
   private String name;
   @NotNull
+  @Adult
   private LocalDate birthDate;
   @Builder.Default
   private CustomerState state = CustomerState.ACTIVE;

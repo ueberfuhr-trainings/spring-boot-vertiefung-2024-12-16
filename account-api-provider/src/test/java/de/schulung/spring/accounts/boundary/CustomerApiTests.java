@@ -8,6 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.startsWith;
@@ -110,6 +113,28 @@ class CustomerApiTests {
                           "state": "active"
                         }
             """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void shouldNotCreateCustomerThatIsYoungerThan18Xears() throws Exception {
+    var birthDate = LocalDate.now().minusYears(10);
+    mockMvc
+      .perform(
+        post("/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(String.format(
+            """
+                          {
+                            "name": "Tom Mayer",
+                            "birthdate": "%s",
+                            "state": "active"
+                          }
+              """,
+            birthDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+          ))
           .accept(MediaType.APPLICATION_JSON)
       )
       .andExpect(status().isBadRequest());

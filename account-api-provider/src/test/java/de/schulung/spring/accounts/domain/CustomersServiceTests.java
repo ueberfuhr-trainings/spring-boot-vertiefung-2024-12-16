@@ -55,5 +55,19 @@ class CustomersServiceTests {
 
   }
 
+  @Test
+  void shouldThrowValidationExceptionOnCreateNonAdultCustomer() {
+    var customer = Customer
+      .builder()
+      .name("Tom Mayer")
+      .state(CustomerState.ACTIVE)
+      .birthDate(LocalDate.now().minusYears(10))
+      .build();
+
+    assertThatThrownBy(() -> customersService.createCustomer(customer))
+      .isInstanceOf(ValidationException.class);
+
+  }
+
 
 }
