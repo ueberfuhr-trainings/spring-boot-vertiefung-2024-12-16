@@ -1,7 +1,6 @@
 package de.schulung.spring.accounts.client;
 
 import io.netty.channel.ChannelOption;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -17,15 +16,12 @@ public class CustomerApiClientConfiguration {
 
   @Bean
   HttpClient httpClient(
-    @Value("${client.connect-timeout:1000}")
-    int connectTimeout,
-    @Value("${client.timeout:1000}")
-    int timeout
+    ClientConfiguration config
   ) {
     return HttpClient
       .create()
-      .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectTimeout)
-      .responseTimeout(Duration.ofMillis(timeout));
+      .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, config.getConnectionTimeout())
+      .responseTimeout(Duration.ofMillis(config.getTimeout()));
   }
 
   @Bean
@@ -38,11 +34,10 @@ public class CustomerApiClientConfiguration {
   @Bean
   CustomerApiClient customerApiClient(
     WebClient.Builder webClientBuilder,
-    @Value("${client.baseurl}")
-    String baseUrl
+    ClientConfiguration config
   ) {
     var webClient = webClientBuilder
-      .baseUrl(baseUrl)
+      .baseUrl(config.getBaseurl())
       .build();
     var restClientAdapter = WebClientAdapter
       .create(webClient);
