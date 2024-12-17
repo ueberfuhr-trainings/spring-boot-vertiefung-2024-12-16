@@ -4,13 +4,9 @@ import org.slf4j.event.Level;
 import org.springframework.boot.test.context.TestComponent;
 
 @TestComponent
-public class LogPerformanceTestService {
+@LogPerformance(Level.DEBUG)
+public class LogPerformanceTestAtClassLevelService {
 
-  @LogPerformance
-  void doSth() {
-  }
-
-  @LogPerformance(Level.DEBUG)
   void doSthDebug() {
   }
 
