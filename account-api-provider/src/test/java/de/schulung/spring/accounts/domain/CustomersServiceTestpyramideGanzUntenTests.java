@@ -4,6 +4,8 @@ import jakarta.validation.ValidationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -13,7 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CustomersServiceTestpyramideGanzUntenTests {
 
   final CustomersService customersService = new CustomersService(
-    new CustomersSinkInMemoryImpl()
+    new CustomersSinkInMemoryImpl(),
+    Mockito.mock(ApplicationEventPublisher.class)
   );
 
   @Test
