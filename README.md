@@ -1,6 +1,6 @@
 # Spring Boot - Grundlagen
 
-[![CI Build](https://github.com/ueberfuhr-trainings/spring-boot-2024-12-02/actions/workflows/maven.yml/badge.svg)](https://github.com/ueberfuhr-trainings/spring-boot-2024-12-02/actions/workflows/maven.yml)
+[![CI Build](https://github.com/ueberfuhr-trainings/spring-boot-vertiefung-2024-12-16/actions/workflows/maven.yml/badge.svg)](https://github.com/ueberfuhr-trainings/spring-boot-vertiefung-2024-12-16/actions/workflows/maven.yml)
 
 ## Inhalte:
 
