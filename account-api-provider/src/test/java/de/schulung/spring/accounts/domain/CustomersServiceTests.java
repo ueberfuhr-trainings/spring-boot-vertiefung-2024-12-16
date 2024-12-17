@@ -20,6 +20,12 @@ class CustomersServiceTests {
   CustomersService customersService;
 
   @Test
+  void testFindAll() {
+    assertThat(customersService.findCustomers())
+      .isNotNull();
+  }
+
+  @Test
   void shouldFindPreviouslyCreatedCustomer() {
     var customer = Customer
       .builder()
