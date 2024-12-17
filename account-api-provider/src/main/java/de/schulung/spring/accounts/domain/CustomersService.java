@@ -4,10 +4,10 @@ import de.schulung.spring.accounts.domain.events.CustomerCreatedEvent;
 import de.schulung.spring.accounts.domain.events.CustomerDeletedEvent;
 import de.schulung.spring.accounts.domain.events.CustomerUpdatedEvent;
 import de.schulung.spring.accounts.shared.aspects.LogPerformance;
+import de.schulung.spring.accounts.shared.aspects.PublishEvent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 public class CustomersService {
 
   private final CustomersSink sink;
-  private final ApplicationEventPublisher eventPublisher;
 
   public Stream<Customer> findCustomers() {
     return sink.findCustomers();
@@ -36,25 +35,31 @@ public class CustomersService {
     return sink.findCustomer(id);
   }
 
+  @PublishEvent(CustomerCreatedEvent.class)
   public void createCustomer(@Valid Customer customer) {
     sink.createCustomer(customer);
-    eventPublisher.publishEvent(new CustomerCreatedEvent(customer));
   }
 
+  // TODO if not deleted -> how to avoid publishing the event?
+  // throw exception?
+  // annotate method for interpreting boolean return value?
+  @PublishEvent(CustomerDeletedEvent.class)
   public boolean deleteCustomer(@NotNull UUID id) {
     if (sink.existsCustomer(id)) {
       sink.deleteCustomer(id);
-      eventPublisher.publishEvent(new CustomerDeletedEvent(id));
       return true;
     } else {
       return false;
     }
   }
 
+  // TODO if not updated -> how to avoid publishing the event?
+  // throw exception?
+  // annotate method for interpreting boolean return value?
+  @PublishEvent(CustomerUpdatedEvent.class)
   public boolean updateCustomer(@NotNull Customer customer) {
     if (sink.existsCustomer(customer.getUuid())) {
       sink.updateCustomer(customer);
-      eventPublisher.publishEvent(new CustomerUpdatedEvent(customer));
       return true;
     } else {
       return false;
