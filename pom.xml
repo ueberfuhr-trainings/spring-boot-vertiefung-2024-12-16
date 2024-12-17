@@ -11,6 +11,7 @@
   <modules>
     <module>account-api-provider</module>
     <module>account-api-consumer</module>
+    <module>java-samples</module>
   </modules>
 
 </project>
