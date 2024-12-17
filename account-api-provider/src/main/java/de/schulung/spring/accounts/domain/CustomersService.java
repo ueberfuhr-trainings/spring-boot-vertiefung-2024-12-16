@@ -1,5 +1,6 @@
 package de.schulung.spring.accounts.domain;
 
+import de.schulung.spring.accounts.shared.aspects.LogPerformance;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class CustomersService {
     return sink.findCustomers();
   }
 
+  @LogPerformance
   public Stream<Customer> findCustomers(@NotNull CustomerState state) {
     return sink.findCustomers(state);
   }
