@@ -4,6 +4,7 @@ import de.schulung.spring.accounts.shared.logging.MethodPerformanceLogger;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -11,6 +12,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
+@Import(LogPerformanceTestService.class)
 public class LogPerformanceInterceptorTests {
 
   @Autowired
