@@ -1,9 +1,8 @@
 package de.schulung.spring.accounts.shared.aspects;
 
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.TestComponent;
 
-// TODO @TestComponent?
-@Component
+@TestComponent
 public class LogPerformanceTestService {
 
   @LogPerformance
