@@ -1,20 +1,20 @@
 package de.schulung.spring.accounts.shared.aspects;
 
+import de.schulung.spring.accounts.shared.logging.MethodPerformanceLogger;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.framework.autoproxy.AbstractBeanFactoryAwareAdvisingPostProcessor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.InitializingBean;
 
-@Slf4j
 @RequiredArgsConstructor
 class LogPerformancePostProcessor
   extends AbstractBeanFactoryAwareAdvisingPostProcessor
   implements InitializingBean {
 
   private final Pointcut pointcut;
+  private final MethodPerformanceLogger methodPerformanceLogger;
 
   private final MethodInterceptor interceptor = invocation -> {
     var ts = System.currentTimeMillis();
@@ -22,9 +22,8 @@ class LogPerformancePostProcessor
       return invocation.proceed();
     } finally {
       var ts2 = System.currentTimeMillis();
-      log.info(
-        "Methode {} brauchte {} ms.",
-        invocation.getMethod().getName(),
+      LogPerformancePostProcessor.this.methodPerformanceLogger.logPerformance(
+        invocation.getMethod(),
         ts2 - ts
       );
     }
