@@ -2,29 +2,23 @@ package de.schulung.spring.accounts.shared.aspects;
 
 import de.schulung.spring.accounts.shared.logging.MethodPerformanceLogger;
 import de.schulung.spring.accounts.shared.logging.MethodPerformanceLogger.LoggingContext;
+import de.schulung.spring.accounts.test.SharedAspectsTest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest
-@Import({
-  LogPerformanceTestService.class,
-  LogPerformanceTestAtClassLevelService.class
-})
+@SharedAspectsTest
 public class LogPerformanceInterceptorTests {
 
   @Autowired
   LogPerformanceTestService logPerformanceTestService;
   @Autowired
   LogPerformanceTestAtClassLevelService logPerformanceTestAtClassLevelService;
-  @MockitoBean
+  @Autowired // Mock
   MethodPerformanceLogger methodPerformanceLogger;
 
   @Test

@@ -1,10 +1,9 @@
 package de.schulung.spring.accounts.domain;
 
+import de.schulung.spring.accounts.test.DomainTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
@@ -13,9 +12,9 @@ import java.time.Month;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@DomainTest
+// not context-relevant
 @ExtendWith(OutputCaptureExtension.class)
-@AutoConfigureTestDatabase
 class CustomersServiceLoggingOnCreationTests {
 
   @Autowired
