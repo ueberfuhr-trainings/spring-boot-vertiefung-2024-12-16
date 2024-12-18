@@ -1,5 +1,6 @@
 package de.schulung.spring.accounts.shared.aspects;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ExtendWith(OutputCaptureExtension.class)
 @Import(LogPerformanceTestService.class)
+@Disabled // would not test logging here
 public class LogPerformanceLoggingTests {
 
   @Autowired

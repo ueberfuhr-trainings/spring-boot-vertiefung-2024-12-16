@@ -1,5 +1,6 @@
 package de.schulung.spring.accounts.test;
 
+import de.schulung.spring.accounts.shared.aspects.ConfigureLogPerformanceTest;
 import org.junit.jupiter.api.Tag;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,6 +33,7 @@ import java.lang.annotation.Target;
 @AutoConfigureTestDatabase
 @RecordApplicationEvents
 @ActiveProfiles("test")
+@ConfigureLogPerformanceTest
 // optional, weil nicht Context-relevant
 @Tag("springboot-test")
 @Tag("whole-application")

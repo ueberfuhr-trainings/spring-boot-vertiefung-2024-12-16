@@ -97,7 +97,7 @@ class CustomerStateMappingTests {
       .birthDate(LocalDate.of(1985, Month.JULY, 3))
       .state(currentState)
       .build();
-    when(service.findCustomer(any()))
+    when(service.findCustomer(uuid))
       .thenReturn(Optional.of(customer));
 
     mockMvc.perform(
