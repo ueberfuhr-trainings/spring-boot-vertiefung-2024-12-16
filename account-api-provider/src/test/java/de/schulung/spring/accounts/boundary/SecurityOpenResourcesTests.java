@@ -1,6 +1,5 @@
 package de.schulung.spring.accounts.boundary;
 
-import de.schulung.spring.accounts.test.security.WithSecurityDisabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -9,33 +8,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-@WithSecurityDisabled
-class LandingPageTests {
+public class SecurityOpenResourcesTests {
 
   @Autowired
   MockMvc mockMvc;
 
   @Test
-  void shouldRedirectToIndexPage() throws Exception {
-    mockMvc.perform(
-        get("/")
-          .accept(MediaType.TEXT_HTML)
-      )
-      .andExpect(status().isFound())
-      .andExpect(header().string("Location", endsWith("/index.html")));
-  }
-
-  @Test
-  void shouldHaveIndexHtml() throws Exception {
+  void shouldAllowOpenAccessToIndexHtml() throws Exception {
     mockMvc
       .perform(
         get("/index.html")
@@ -44,4 +29,23 @@ class LandingPageTests {
       .andExpect(status().isOk());
   }
 
+  @Test
+  void shouldAllowOpenAccessToOpenApi() throws Exception {
+    mockMvc
+      .perform(
+        get("/openapi.yml")
+          .accept(MediaType.ALL)
+      )
+      .andExpect(status().isOk());
+  }
+
+  @Test
+  void shouldNotAllowAccessToApi() throws Exception {
+    mockMvc
+      .perform(
+        get("/customers")
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isUnauthorized());
+  }
 }

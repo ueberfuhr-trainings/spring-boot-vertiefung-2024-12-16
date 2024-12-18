@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 @RestController
 @RequestMapping("/customers")
 @RequiredArgsConstructor
+// @PreAuthorize("hasRole('USER')") // TODO custom annotation
 public class CustomersController {
 
   private final CustomersService customersService;
@@ -34,6 +35,8 @@ public class CustomersController {
     produces = MediaType.APPLICATION_JSON_VALUE
   )
   Stream<CustomerDto> getAllCustomers(
+    // @AuthenticationPrincipal
+    // Jwt jwt,
     @CustomerStatePattern
     @RequestParam(required = false, name = "state")
     String stateFilter

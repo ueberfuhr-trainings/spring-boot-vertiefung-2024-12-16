@@ -3,6 +3,7 @@ package de.schulung.spring.accounts.boundary;
 import de.schulung.spring.accounts.domain.Customer;
 import de.schulung.spring.accounts.domain.CustomerState;
 import de.schulung.spring.accounts.domain.CustomersService;
+import de.schulung.spring.accounts.test.security.WithSecurityDisabled;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
+@WithSecurityDisabled
 class CustomerStateMappingTests {
 
   @Autowired
