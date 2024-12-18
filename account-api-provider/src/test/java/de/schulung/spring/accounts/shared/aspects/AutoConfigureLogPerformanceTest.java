@@ -14,19 +14,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({
-  ElementType.TYPE,
-  ElementType.ANNOTATION_TYPE
-})
+@Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 // Context Configuration
 @Import({
   LogPerformanceTestService.class,
   LogPerformanceTestAtClassLevelService.class,
-  ConfigureLogPerformanceTest.MockConfiguration.class
+  AutoConfigureLogPerformanceTest.MockConfiguration.class
 })
-public @interface ConfigureLogPerformanceTest {
+public @interface AutoConfigureLogPerformanceTest {
 
   @TestConfiguration
   class MockConfiguration {

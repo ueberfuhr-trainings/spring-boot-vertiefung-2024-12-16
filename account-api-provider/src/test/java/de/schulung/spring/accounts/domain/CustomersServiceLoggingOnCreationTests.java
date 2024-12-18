@@ -1,6 +1,5 @@
 package de.schulung.spring.accounts.domain;
 
-import de.schulung.spring.accounts.test.DomainTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package de.schulung.spring.accounts.boundary;
 
-import de.schulung.spring.accounts.test.WholeApplicationTest;
+import de.schulung.spring.accounts.AccountApiProviderApplicationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WholeApplicationTest
+@AccountApiProviderApplicationTest
 class LandingPageTests {
 
   @Autowired

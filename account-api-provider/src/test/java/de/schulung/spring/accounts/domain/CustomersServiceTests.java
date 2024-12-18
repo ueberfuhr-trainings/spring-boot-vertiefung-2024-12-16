@@ -1,6 +1,5 @@
 package de.schulung.spring.accounts.domain;
 
-import de.schulung.spring.accounts.test.DomainTest;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
