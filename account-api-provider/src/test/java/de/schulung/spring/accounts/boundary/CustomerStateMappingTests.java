@@ -3,6 +3,7 @@ package de.schulung.spring.accounts.boundary;
 import de.schulung.spring.accounts.domain.Customer;
 import de.schulung.spring.accounts.domain.CustomerState;
 import de.schulung.spring.accounts.domain.CustomersService;
+import de.schulung.spring.accounts.test.BoundaryTest;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -10,11 +11,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.stubbing.Stubber;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -33,14 +30,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureTestDatabase
+@BoundaryTest
 class CustomerStateMappingTests {
 
   @Autowired
   MockMvc mockMvc;
-  @MockitoBean
+  @Autowired // Mock
   CustomersService service;
 
   private static class CustomerStateMappings implements ArgumentsProvider {

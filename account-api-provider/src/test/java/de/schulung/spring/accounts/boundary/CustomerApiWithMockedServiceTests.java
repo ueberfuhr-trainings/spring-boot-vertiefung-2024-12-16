@@ -3,13 +3,10 @@ package de.schulung.spring.accounts.boundary;
 import de.schulung.spring.accounts.domain.Customer;
 import de.schulung.spring.accounts.domain.CustomerState;
 import de.schulung.spring.accounts.domain.CustomersService;
+import de.schulung.spring.accounts.test.BoundaryTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -29,14 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureTestDatabase
+@BoundaryTest
 class CustomerApiWithMockedServiceTests {
 
   @Autowired
   MockMvc mockMvc;
-  @MockitoBean
+  @Autowired // Mock
   CustomersService customersService;
 
   @Test
