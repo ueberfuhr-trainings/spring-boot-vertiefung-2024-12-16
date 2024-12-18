@@ -14,7 +14,6 @@ import reactor.core.publisher.Flux;
 @HttpExchange("/customers")
 public interface CustomerApiClient {
 
-
   @GetExchange
   Flux<CustomerDto> getCustomers();
 
