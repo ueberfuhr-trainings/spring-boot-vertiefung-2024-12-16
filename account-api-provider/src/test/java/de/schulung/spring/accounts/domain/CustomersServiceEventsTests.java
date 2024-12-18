@@ -1,7 +1,6 @@
 package de.schulung.spring.accounts.domain;
 
 import de.schulung.spring.accounts.domain.events.CustomerCreatedEvent;
-import de.schulung.spring.accounts.test.DomainTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.event.ApplicationEvents;

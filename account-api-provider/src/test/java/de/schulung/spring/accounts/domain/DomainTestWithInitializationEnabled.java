@@ -1,4 +1,4 @@
-package de.schulung.spring.accounts.test;
+package de.schulung.spring.accounts.domain;
 
 import org.junit.jupiter.api.Tag;
 import org.springframework.test.context.TestPropertySource;

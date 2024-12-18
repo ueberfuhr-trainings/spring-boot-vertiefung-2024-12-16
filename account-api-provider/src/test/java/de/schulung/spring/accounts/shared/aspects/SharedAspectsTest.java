@@ -1,5 +1,6 @@
-package de.schulung.spring.accounts.test;
+package de.schulung.spring.accounts.shared.aspects;
 
+import de.schulung.spring.accounts.AccountApiProviderApplicationTest;
 import org.junit.jupiter.api.Tag;
 
 import java.lang.annotation.Documented;
@@ -14,9 +15,9 @@ import java.lang.annotation.Target;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-// Domain tests use the same context as whole application tests
-@WholeApplicationTest
+// These tests use the same context as whole application tests
+@AccountApiProviderApplicationTest // includes @AutoConfigureLogPerformanceTest
 // optional, weil nicht Context-relevant
-@Tag("domain-test")
-public @interface DomainTest {
+@Tag("shared-aspects-test")
+public @interface SharedAspectsTest {
 }
